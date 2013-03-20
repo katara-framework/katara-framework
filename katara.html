@@ -1,0 +1,191 @@
+<!DOCTYPE HTML>
+<html lang="de">
+  <head>
+		<META HTTP-EQUIV="content-type" CONTENT="text/html; charset=utf-8">
+    <title>Katara-Framework</title>		
+		<script type="text/javascript" src="assets/js/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="assets/js/raphael.js"></script>
+    <script type="text/javascript" src="assets/js/gui.js"></script>    
+    <script type="text/javascript" src="katara.js"></script>
+    <script type="text/javascript" src="helper.js"></script>
+		<script type="text/javascript" src="graph.js"></script>
+		<script type="text/javascript" src="VM.js"></script>
+		<link href="assets/bootstrap/css/bootstrap.min.css" rel="stylesheet"> 
+		<link href="assets/css/main.css" rel="stylesheet">
+  </head>
+  <body>
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="#EBNF">EBNF</a></li>
+			<li><a href="#Target">TARGET</a></li>
+			<li><a href="#VM">VM</a></li>
+			<li><a href="#Custom">Custom</a></li>
+			<li><a href="#Presets">Presets</a></li>
+		</ul>		
+		<div class="container-fluid">
+			    
+			<div id="EBNF" class="toggleable">
+				<h3>EBNF Lexer <i class="icon-minus-sign clickable"></i></h3>
+				<div id="EBNF_Lex">
+					<div id="EBNF_codebox" class="row-fluid">
+						<div id="EBNF_lex_code_ln" class="span1 code lines"></div>
+						<div id="EBNF_lex_code" class="span5 code"></div>
+						<div class="offset1 span5">						
+							<button class="btn-small" onClick="javascript:ebnf_lexer_run();"><i class="icon-play"></i> Run</button>
+							<button class="btn-small" onClick="javascript:ebnf_lexer_next();"><i class="icon-step-forward"></i> Next</button>
+              <!-- <button class="btn-small" onClick="javascript:ebnf_lexer_prev();"><i class="icon-step-backward"></i> Prev</button> -->
+							<button class="btn-small" onClick="javascript:ebnf_lexer_reset();"><i class="icon-repeat"></i> Reset</button>
+						</div>
+						<div id="EBNF_lex_output" class="output offset1 span5 code"></div>
+					</div>
+				</div>
+				<hr>
+				<h3>EBNF Parser <i class="icon-minus-sign clickable"></i></h3>
+				<div id="EBNF_Parse">
+					<div class="row-fluid">
+						<div class="offset1 span5">
+							<button class="btn-small" onClick="javascript:ebnf_parser_run();"><i class="icon-play"></i> Run</button>
+							<button class="btn-small" onClick="javascript:ebnf_parser_next();"><i class="icon-step-forward"></i> Next</button>
+              <!-- <button class="btn-small" onClick="javascript:ebnf_parser_prev();"><i class="icon-step-backward"></i> Prev</button> -->
+							<button class="btn-small" onClick="javascript:ebnf_parser_reset();"><i class="icon-repeat"></i> Reset</button>
+						</div>
+					</div>
+					<div class="row-fluid">
+						<div id="EBNF_parser_output" class="output offset1 span5 code"></div>
+					</div>      
+				</div>
+			</div>
+
+			<div id="Target" class="hidden toggleable">    
+				<h3>Target Lexer <i class="icon-minus-sign clickable"></i></h3>
+				<div id="TargetLexer">
+					<div id="Target_codebox" class="row-fluid">
+						<div id="Target_code_ln" class="span1 code lines"></div>
+						<div id="Target_code" class="span5 code"></div>
+						<div class="offset1 span5">					
+							<button class="btn-small" onClick="javascript:target_lexer_run();"><i class="icon-play"></i> Run</button>
+							<button class="btn-small" onClick="javascript:target_lexer_next();"><i class="icon-step-forward"></i> Next</button>
+              <!-- <button class="btn-small" onClick="javascript:target_lexer_prev();"><i class="icon-step-backward"></i> Prev</button> -->
+							<button class="btn-small" onClick="javascript:target_lexer_reset();"><i class="icon-repeat"></i> Reset</button>
+						</div>
+						<div id="Target_lex_output" class="output offset1 span5 code"></div>
+					</div>
+				</div>
+				<hr>
+				<h3>Token Stack <i class="icon-minus-sign clickable"></i></h3>
+				<div class="row-fluid">
+					<div id="TokenStack" class="offset1 span5 code output"></div>
+				</div>				
+				<hr>
+				<h3>Target Parser <i class="icon-minus-sign clickable"></i></h3>			
+				<div id="TargetParser">
+					<h4>Graph <i class="icon-minus-sign sizeable"></i></h4>
+					<div id="graph" class="row-fluid"></div>
+					<div class="row-fluid">
+						<div class="offset1 span5">
+							<button class="btn-small" onClick="javascript:target_parser_run();"><i class="icon-play"></i> Run</button>
+							<button class="btn-small" onClick="javascript:target_parser_next();"><i class="icon-step-forward"></i> Next</button>
+							<button class="btn-small" onClick="javascript:target_parser_prev();"><i class="icon-step-backward"></i> Prev</button>
+							<button class="btn-small" onClick="javascript:target_parser_reset();"><i class="icon-repeat"></i> Reset</button>
+						</div>				
+					</div>
+					<div class="row-fluid">
+						<div id="Target_parser_output" class="output offset1 span5 code"></div>
+					</div>
+				</div>
+				<hr>
+				<h3>Target Symcode <i class="icon-minus-sign clickable"></i></h3>
+				<div id="TargetSymCode" class="row-fluid">
+          <div id="Target_symCode" class="offset1 span5 code output"></div>
+
+          <div class="offset1 span5">
+            <h3>Opcodes</h3>
+            <div id="Target_opcodes" class="code output"></div>
+          </div>
+				</div>
+			</div>
+			
+			<div id="VM" class="hidden toggleable">
+        <div class="row-fluid">
+          <div class="span3">
+            <h4>Opcodes</h4>
+            <div id="vm_ops" class="output code"></div>
+          </div>
+
+          <div class="span3">
+            <h4>IO</h4>
+            <div id="vm_io"></div>
+          </div>
+
+          <div class="span3">
+            <h4>Vars</h4>
+            <div id="vm_vars"></div>
+          </div>
+
+          <div class="span3">
+            <h4>Stack</h4>
+            <div id="vm_stack"></div>
+          </div>
+        </div>
+        <hr>
+        <div class="row-fluid">
+          <div class="span3">
+            <div id="vm_status"></div>
+          </div>
+          <div class="span3">
+            <button class="btn-small" onClick="javascript:VM_run();"><i class="icon-play"></i> Run</button>
+            <button class="btn-small" onClick="javascript:VM_next();"><i class="icon-step-forward"></i> Next</button>
+            <!-- <button class="btn-small" onClick="javascript:VM_prev();"><i class="icon-step-backward"></i> Prev</button> -->
+            <button class="btn-small" onClick="javascript:VM_reset();"><i class="icon-repeat"></i> Reset</button>
+          </div>				
+        </div>
+			</div>
+			
+			<div id="Custom" class="hidden toggleable">
+				<div id ="custom-checkboxes" class="row-fluid">
+					<label class="checkbox inline">
+						<input type="checkbox" value="#EBNF_codebox">EBNF Code
+					</label>
+					<label class="checkbox inline">
+						<input type="checkbox" value="#TargetParser">Target Parser
+					</label>
+					<label class="checkbox inline">
+						<input type="checkbox" value="#TargetLexer">Target Lexer 
+					</label>
+					<label class="checkbox inline">
+						<input type="checkbox" value="#TokenStack">Token Stack
+					</label>
+					<label class="checkbox inline">
+						<input type="checkbox" value="#EBNF_Parse">EBNF Parse
+					</label>
+				</div>
+				<div class="row-fluid">
+					<button id="customizer" class="btn-small"><i class="icon-refresh"></i>Reload</button>
+				</div>
+				<div id="custom-target" class="row-fluid">
+			 </div>
+     </div>
+
+     <div id="Presets" class="hidden toggleable">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+          <h3>Manage Presets</h3>
+        </div>
+        <div class="modal-body">
+          <div id="info" style="height: 25px; font-weight: bold;"></div>
+          <div>
+            <label>Save Preset as:</label>
+            <input id="presetname" type="text">
+            <input id="save" class="btn-small" type="button" value="save" onClick="preset_saveItem();">
+            <input id="overwrite" class="btn-small" type="button" value="overwrite" style="display: none;" onClick="preset_overwriteItem();">
+          </div>
+          <hr>
+          <h4>List of Presets</h4>
+          <div id="list"></div>
+        </div>
+     </div>
+
+
+		</div>
+  </body>
+
+</html>

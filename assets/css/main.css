@@ -1,0 +1,19 @@
+
+* { outline: 0 !important; } /* delete if blind! */
+div { overflow-x: auto; }
+body { font-size: 1.0em !important; overflow-y: scroll; }
+.hidden { position: absolute !important; top: -9999px !important; left: -9999px !important; }
+/*.hidden { display: none; }*/
+.clear { clear: both; }
+.code { white-space: pre; font-family: monospace; }
+.marker { color: red; }
+
+.lines { text-align: right; }
+.lines .active { background-color: red; color: white;}
+
+.output { overflow-y: auto; max-height: 300px; margin-top: 10px; }
+
+.clickable { cursor: pointer; margin-top: 10px; }
+.sizeable { cursor: pointer; margin-top: 5px; }
+
+.scrollable { overflow-y: auto; max-height: 300px; margin-bottom: 20px; }
